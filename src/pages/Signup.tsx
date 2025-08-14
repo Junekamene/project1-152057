@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Shield, Mail, Lock, User, University, UserCheck } from "lucide-react";
 
 const Signup = () => {
@@ -105,26 +105,22 @@ const Signup = () => {
                   />
                 </div>
               </div>
-              <div className="space-y-3">
-                <Label className="text-sm font-medium">Role</Label>
-                <RadioGroup value={formData.role} onValueChange={handleRoleChange} className="grid grid-cols-1 gap-2">
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="student" id="student" />
-                    <Label htmlFor="student" className="text-sm cursor-pointer">Student</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="faculty" id="faculty" />
-                    <Label htmlFor="faculty" className="text-sm cursor-pointer">Faculty</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="staff" id="staff" />
-                    <Label htmlFor="staff" className="text-sm cursor-pointer">Staff</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="admin" id="admin" />
-                    <Label htmlFor="admin" className="text-sm cursor-pointer">Administrator</Label>
-                  </div>
-                </RadioGroup>
+              <div className="space-y-2">
+                <Label htmlFor="role">Role</Label>
+                <div className="relative">
+                  <UserCheck className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Select value={formData.role} onValueChange={handleRoleChange} required>
+                    <SelectTrigger className="pl-10">
+                      <SelectValue placeholder="Select your role" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="student">Student</SelectItem>
+                      <SelectItem value="faculty">Faculty</SelectItem>
+                      <SelectItem value="staff">Staff</SelectItem>
+                      <SelectItem value="admin">Administrator</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
