@@ -4,13 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Shield, Mail, Lock, User, University } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Shield, Mail, Lock, User, University, UserCheck } from "lucide-react";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     university: "",
+    role: "",
     password: "",
     confirmPassword: ""
   });
@@ -19,6 +21,13 @@ const Signup = () => {
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value
+    }));
+  };
+
+  const handleRoleChange = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      role: value
     }));
   };
 
@@ -95,6 +104,27 @@ const Signup = () => {
                     required
                   />
                 </div>
+              </div>
+              <div className="space-y-3">
+                <Label className="text-sm font-medium">Role</Label>
+                <RadioGroup value={formData.role} onValueChange={handleRoleChange} className="grid grid-cols-1 gap-2">
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="student" id="student" />
+                    <Label htmlFor="student" className="text-sm cursor-pointer">Student</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="faculty" id="faculty" />
+                    <Label htmlFor="faculty" className="text-sm cursor-pointer">Faculty</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="staff" id="staff" />
+                    <Label htmlFor="staff" className="text-sm cursor-pointer">Staff</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="admin" id="admin" />
+                    <Label htmlFor="admin" className="text-sm cursor-pointer">Administrator</Label>
+                  </div>
+                </RadioGroup>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
