@@ -5,6 +5,7 @@ import { Shield, AlertTriangle, BarChart3, Users, LogOut } from "lucide-react";
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
   const isAuthPage = location.pathname === "/login" || location.pathname === "/signup";
+  const isHomePage = location.pathname === "/";
 
   if (isAuthPage) {
     return <div className="min-h-screen bg-background">{children}</div>;
@@ -44,12 +45,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               ))}
             </nav>
 
-            <div className="flex items-center space-x-2">
-              <Button variant="outline" size="sm">
-                <LogOut className="h-4 w-4 mr-2" />
-                Logout
-              </Button>
-            </div>
+            {!isHomePage && (
+              <div className="flex items-center space-x-2">
+                <Button variant="outline" size="sm">
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Logout
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </header>
