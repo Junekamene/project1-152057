@@ -40,7 +40,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               {navItems.map((item) => (
                 <Link
                   key={item.path}
-                  to={item.path}
+                  to={isHomePage ? "/login" : item.path}
                   className={`flex items-center space-x-2 px-3 py-2 rounded-md transition-colors ${
                     location.pathname === item.path
                       ? "bg-accent text-accent-foreground"
