@@ -154,9 +154,8 @@ const Signup = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="student">Student</SelectItem>
-                      <SelectItem value="faculty">Faculty</SelectItem>
                       <SelectItem value="staff">Staff</SelectItem>
-                      <SelectItem value="admin">Administrator</SelectItem>
+                      <SelectItem value="administrator">Administrator</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
