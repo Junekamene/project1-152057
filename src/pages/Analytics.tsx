@@ -3,17 +3,29 @@ import { Badge } from "@/components/ui/badge";
 import { BarChart3, TrendingUp, AlertTriangle, Shield, Clock, Users } from "lucide-react";
 
 const Analytics = () => {
-  // TODO: Replace with real data from Supabase
+  // Mock data for demonstration
   const detectionStats = {
-    totalScans: 0,
-    threatsBlocked: 0,
-    accuracy: 0,
-    falsePositives: 0
+    totalScans: 15847,
+    threatsBlocked: 1243,
+    accuracy: 97.8,
+    falsePositives: 23
   };
 
-  const recentThreats: any[] = [];
+  const recentThreats = [
+    { id: 1, url: "suspicious-bank-login.com", severity: "critical", timestamp: "2 minutes ago", type: "Banking Phish" },
+    { id: 2, url: "fake-microsoft365.net", severity: "high", timestamp: "15 minutes ago", type: "Credential Theft" },
+    { id: 3, url: "covid-relief-scam.org", severity: "medium", timestamp: "1 hour ago", type: "Social Engineering" },
+    { id: 4, url: "amazon-prize-winner.biz", severity: "high", timestamp: "2 hours ago", type: "Prize Scam" },
+    { id: 5, url: "paypal-verify-account.co", severity: "critical", timestamp: "3 hours ago", type: "Payment Phish" }
+  ];
 
-  const threatTrends: any[] = [];
+  const threatTrends = [
+    { category: "Banking Phishing", count: 342, percentage: 28 },
+    { category: "Credential Theft", count: 289, percentage: 23 },
+    { category: "Social Engineering", count: 234, percentage: 19 },
+    { category: "Prize/Lottery Scams", count: 198, percentage: 16 },
+    { category: "Payment Phishing", count: 180, percentage: 14 }
+  ];
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
@@ -126,8 +138,23 @@ const Analytics = () => {
             <CardDescription>Latest phishing attempts blocked by the system</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-center py-8 text-muted-foreground">
-              <p>No threat data available. Connect to start monitoring.</p>
+            <div className="space-y-4">
+              {recentThreats.map((threat) => (
+                <div key={threat.id} className="flex items-center justify-between p-3 border rounded-lg">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2">
+                      <Badge variant={getSeverityBadgeVariant(threat.severity)}>
+                        {threat.severity.toUpperCase()}
+                      </Badge>
+                      <span className="text-sm font-medium">{threat.type}</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-1 truncate">{threat.url}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xs text-muted-foreground">{threat.timestamp}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>
@@ -142,8 +169,25 @@ const Analytics = () => {
             <CardDescription>Most common phishing attack types this month</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-center py-8 text-muted-foreground">
-              <p>No trend data available. Connect to start monitoring.</p>
+            <div className="space-y-4">
+              {threatTrends.map((trend, index) => (
+                <div key={index} className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 rounded-full bg-cyber-blue"></div>
+                    <span className="text-sm font-medium">{trend.category}</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <span className="text-sm text-muted-foreground">{trend.count}</span>
+                    <div className="w-16 bg-muted rounded-full h-2">
+                      <div 
+                        className="bg-cyber-blue h-2 rounded-full" 
+                        style={{ width: `${trend.percentage}%` }}
+                      ></div>
+                    </div>
+                    <span className="text-sm font-medium w-8">{trend.percentage}%</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>

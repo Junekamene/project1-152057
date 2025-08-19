@@ -1,7 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
+interface User {
+  email: string;
+  name: string;
+  role: string;
+}
+
 interface AuthContextType {
   isAuthenticated: boolean;
+  user: User | null;
   login: (email: string, password: string) => Promise<boolean>;
   signup: (userData: any) => Promise<boolean>;
   logout: () => void;
@@ -19,20 +26,34 @@ export const useAuth = () => {
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  // Mock users database
+  const mockUsers = [
+    { email: "admin@university.edu", password: "admin123", name: "Admin User", role: "administrator" },
+    { email: "student@university.edu", password: "student123", name: "Student User", role: "student" },
+    { email: "staff@university.edu", password: "staff123", name: "Staff User", role: "staff" }
+  ];
 
   useEffect(() => {
     // Check if user is already logged in (from localStorage)
     const savedAuth = localStorage.getItem('isAuthenticated');
-    if (savedAuth === 'true') {
+    const savedUser = localStorage.getItem('user');
+    if (savedAuth === 'true' && savedUser) {
       setIsAuthenticated(true);
+      setUser(JSON.parse(savedUser));
     }
   }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
     // Simulate login logic - in real app this would call Supabase
-    if (email && password) {
+    const foundUser = mockUsers.find(u => u.email === email && u.password === password);
+    if (foundUser) {
+      const userData = { email: foundUser.email, name: foundUser.name, role: foundUser.role };
       setIsAuthenticated(true);
+      setUser(userData);
       localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem('user', JSON.stringify(userData));
       return true;
     }
     return false;
@@ -49,11 +70,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = () => {
     setIsAuthenticated(false);
+    setUser(null);
     localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('user');
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, signup, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, login, signup, logout }}>
       {children}
     </AuthContext.Provider>
   );
